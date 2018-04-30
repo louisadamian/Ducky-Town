@@ -25,9 +25,24 @@ def drive(speed):
     runMotor(lmotor,speed)
     runMotor(rmotor,speed)
 
+class PID():
+    def __init__(self, ):
+        Tp
+        offset
+        err
+        intergral
+        derivative
+        Kp
+        Ki
+        Kd
+    def update():
+
+
+
 def drive(speed, turn):
+
     tVal = turn/2
-    runMotor(lmotor, speed* tVal)
+    runMotor(lmotor, speed*  tVal)
     runMotor(rmotor, speed*(-tVal))
 
 # Complete this function so:

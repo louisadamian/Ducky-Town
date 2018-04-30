@@ -1,10 +1,11 @@
-import cv2 as cv
+import cv2 as cv2
 import numpy as np
 from matplotlib import pyplot as plt
 
-
-def findLine(image):
+def ImportImg(image):
     img = cv2.imread(image)
+
+def findLines(image):
     gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
     edges = cv2.Canny(gray,50,150,apertureSize = 3)
     lines = cv2.HoughLines(edges,1,np.pi/180,200)
@@ -22,3 +23,7 @@ def findLine(image):
     cv2.line(img,(x1,y1),(x2,y2),(0,0,255),2)
 
     return cv2.imwrite('houghlines3.jpg',img)
+
+def getColor(img):
+    detector = cv2.SimpleBlobDetector()
+    detector.detect(img)
