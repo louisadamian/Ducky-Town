@@ -36,7 +36,7 @@ def drive(speed, turn):
 # 3. any value equal to 0 makes the motor BRAKE.
 # 4. any values less than -32768 and greater than 32768 are rejected.
 def runMotor(motor, speed):
-  """ motor - the motor object to control.
+      """ motor - the motor object to control.
       speed - a number from -32768 (reverse) to 32768 (forward) """
       motor.setspeed(speed);
 
