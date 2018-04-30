@@ -1,57 +1,69 @@
-
-class Light{
+class StopLight{
   public:
-    uint8_t redPin;  
-    uint8_t yellowPin;
-    uint8_t greenPin;
-    void init(){
-      pinMode(redPin, OUTPUT);
-      pinMode(yellowPin, OUTPUT);
-      pinMode(greenPin, OUTPUT);
+    int timeing;
+    uint8_t state = 0;// 0: double red going to A greenA; 1: = A greed, 2: double red going to B green, 3: B green;
+    uint8_t redPinA;
+    uint8_t redPinB;
+    uint8_t greenPinA;
+    uint8_t greenPinB;
+    Stoplight(uint8_t redPinA_,uint8_t greenPinA_, uint8_t redPinB_, uint8_t greenPinB_){
+      redPinA_ = redPinA;
+      greenPinA_ = greenPinA;
+      redPinB_ = redPinB;
+      greenPinB_ = greenPinB;
     }
-    void setGreen(){
-      digitalWrite(redPin,0);
-      digitalWrite(yellowPin,0);
-      digitalWrite(greenPin, 255);      
+  void init(){
+    pinMode(redPinA, OUTPUT);
+    pinMode(redPinB, OUTPUT);
+    pinMode(greenPinA, OUTPUT);
+    pinMode(greenPinB, OUTPUT);
+  }
+  void greenA(){
+    digitalWrite(greenPinA, HIGH);
+    digitalWrite(redPinA, LOW);
+    digitalWrite(greenPinB, LOW);
+    digitalWrite(redPinB, HIGH);
+    state = 1;
+  }
+  void greenB(){
+    digitalWrite(greenPinA, LOW);
+    digitalWrite(redPinA, HIGH);
+    digitalWrite(greenPinB, HIGH);
+    digitalWrite(redPinB, LOW);
+    state = 3
+  }
+  void allRed(){
+    digitalWrite(redPinA, HIGH);
+    digitalWrite(redPinB, HIGH);
+    digitalWrite(greenPinA, LOW);
+    digitalWrite(greenPinB, LOW);
+  }
+  change(){
+    if (prevTime- millis >= timing)
+    if( state == 0){
+      greenA();
+    }else if(state == 1){
+      allRed();
+      state = 2
+    }else if(state == 2){
+      greenB();
+    }else if(state == 3){
+      allRed()
+      state = 0
     }
-    void setYellow(){
-      digitalWrite(redPin,0);
-      digitalWrite(yellowPin,255);
-      digitalWrite(greenPin, 0);      
-    }
-    void setRed(){
-      digitalWrite(redPin,255);
-      digitalWrite(yellowPin,0);
-      digitalWrite(greenPin, 0);      
-    }
-    Light(uint8_t redPin_, uint8_t yellowPin_, uint8_t greenPin_){
-      redPin_ = redPin;
-      yellowPin_ = yellowPin;
-      greenPin_ = greenPin;
-    }
+  }
 };
-class Intersection{
-  public:
-    Light lights[4];
-    int PrevTime = 0; // previous light switch time
-   int duration = 100000; //light cycle duration
-    // state 0 = double red; state 1 =  a is green  b is red ; 2 =  a is red b is greed
-    int state = 0;
-    intersection(int duration_,int lights_){
-       duration_ = duration;
-      lights_ = lights;
-      };
-};
-void setup() {
-  Intersection a(10000,new Light{ new Light(2,3,4), new Light(5,6,7), new Light(8,9,10)};
-  )
-  
+
+StopLight lightA(2,3,4,5);
+stoplight lightB(6,7,8,9);
+
+void setup(){
+  lightA.init();
+
+  while(true){
+    LightA.chnage();
+  }
+void loop(){
+
+
 }
-
-void loop() {
-  
-  
-  
-}
-
-
