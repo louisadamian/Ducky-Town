@@ -36,7 +36,7 @@ for event in gamepad.read_loop():
       if 'BTN_A' in keyevent.keycode:
         # Do something here when the A button is pressed
         camera.start_preview()
-        camera.start_recording('/home/pi/Desktop/videos/video%s.h264' % current_video_number)
+        camera.start_recording('/home/nuvustudent/Desktop/Videos/video%s.h264' % current_video_number)
         sleep(10)
         camera.stop_recording()
         camera.stop_preview
@@ -44,7 +44,7 @@ for event in gamepad.read_loop():
         pass
       elif 'BTN_B' in keyevent.keycode:
         # Do something here when the B button is pressed
-        camera.capture('/home/pi/Desktop/images/image%s.jpg' % current_image_number)
+        camera.capture('/home/nuvustudent/Desktop/Images/image%s.jpg' % current_image_number)
         current_image_number += 1
         pass
       elif 'BTN_START' in keyevent.keycode:
