@@ -18,6 +18,8 @@ def turnOffMotors():
 
 atexit.register(turnOffMotors)
 
+def scaleMap (value, value_low, value_high, map_low, map_high):
+    return (float(value) - value_low) * (map_high - map_low) / (value_high - value_low) + map_low
 
 def drive(speed):
     runMotor(lmotor,speed)
