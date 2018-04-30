@@ -25,8 +25,8 @@ def drive(speed):
 
 def drive(speed, turn):
     tVal = turn/2
-        runMotor(lmotor, speed* tVal)
-        runMotor(rmotor, speed*(-tVal))
+    runMotor(lmotor, speed* tVal)
+    runMotor(rmotor, speed*(-tVal))
 
 # Complete this function so:
 # 1. values in the range 1 to 32768 make the motor spin forward faster and faster.
