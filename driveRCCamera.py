@@ -6,10 +6,12 @@ Spyder Editor
 This is a temporary script file.
 """
 # Import the device reading library
+from Adafruit_MotorHAT import Adafruit_MotorHAT, Adafruit_DCMotor
 from evdev import InputDevice, categorize, ecodes, KeyEvent, list_devices
 from picamera import PiCamera
 from time import sleep
-import drive as drive
+import drive.py
+import atexit
 
 # Get the name of the Logitech Device
 def getInputDeviceByName(name):
@@ -19,6 +21,9 @@ def getInputDeviceByName(name):
       return InputDevice(device.fn)
   return None
 
+atexit.register(drive.turnOffMotors)
+
+
 # Import our gamepad.
 gamepad = getInputDeviceByName('Logitech Gamepad F710')
 camera = PiCamera()
@@ -26,10 +31,18 @@ camera = PiCamera()
 current_image_number = 0
 current_video_number = 0
 
+mh = Adafruit_MotorHAT(addr=0x60)
+lmotor = mh.getMotor(1)
+rmotor = mh.getMotor(2)
+
 def scaleMap (value, value_low, value_high, map_low, map_high):
     return (float(value) - value_low) * (map_high - map_low) / (value_high - value_low) + map_low
 
 is_recording = False
+
+throttle_percent = 0.0
+left_percent = 0.0
+right_percent = 0.0
 
 # Loop over the gamepad's inputs, reading it.
 for event in gamepad.read_loop():
@@ -67,13 +80,24 @@ for event in gamepad.read_loop():
       print('TRIG_L '+str(event.value))
     elif event.code == 3:
       print('JOY_LR '+str(event.value))
+      if event.value < 0:
+          left_percent = 1 - scaleMap(event.value,0,32767,0,1)
+          right_percent = 1.0
+      elif event.value > 0:
+          right_percent = 1 - scaleMap(event.value,0,32767,0,1)
+          left_percent = 1.0
     elif event.code == 4:
       print('JOY_UD '+str(event.value))
     elif event.code == 5:
       print('TRIG_R '+str(event.value))
+      throttle_percent = scaleMap(event.value,0,255,0,1)
     elif event.code == 16:
       print('HAT_LR '+str(event.value))
     elif event.code == 17:
       print('HAT_UD '+str(event.value))
     else:
       pass
+
+while True:
+    drive.runMotor(lmotor,throttle_percent*left_percent*32767)
+    drive.runMotor(rmotor,throttle_percent*right_percent*32767)
