@@ -31,7 +31,6 @@ def drive(speed, turn):
     runMotor(rmotor, speed*(-tVal))
 
 # Complete this function so:
-# 1. values in the range 1 to 32768 make the motor spin forward faster and faster.
 # 2. values in the range -1 to -32768 make the motor spin backward faster and faster.
 # 3. any value equal to 0 makes the motor BRAKE.
 # 4. any values less than -32768 and greater than 32768 are rejected.
