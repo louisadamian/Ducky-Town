@@ -13,7 +13,6 @@ from time import sleep
 import drive as drive
 import atexit
 
-# Get the name of the Logitech Device
 def getInputDeviceByName(name):
   devices = [InputDevice(fn) for fn in list_devices()]
   for device in devices:
@@ -40,11 +39,7 @@ def scaleMap (value, value_low, value_high, map_low, map_high):
 
 is_recording = False
 
-throttle_percent = 0.0
-left_percent = 0.0
-right_percent = 0.0
 
-# Loop over the gamepad's inputs, reading it.
 for event in gamepad.read_loop():
   if event.type == ecodes.EV_KEY:
     keyevent = categorize(event)
@@ -80,22 +75,13 @@ for event in gamepad.read_loop():
       print('TRIG_L '+str(event.value))
     elif event.code == 3:
       print('JOY_LR '+str(event.value))
-      if event.value < 0:
-          left_percent = 1 - scaleMap(event.value,0,32767,0,1)
-          right_percent = 1.0
-      elif event.value > 0:
-          right_percent = 1 - scaleMap(event.value,0,32767,0,1)
-          left_percent = 1.0
     elif event.code == 4:
       print('JOY_UD '+str(event.value))
     elif event.code == 5:
       print('TRIG_R '+str(event.value))
-      throttle_percent = scaleMap(event.value,0,255,0,1)
     elif event.code == 16:
       print('HAT_LR '+str(event.value))
     elif event.code == 17:
       print('HAT_UD '+str(event.value))
     else:
       pass
-  drive.runMotor(lmotor,throttle_percent*left_percent*32767)
-  drive.runMotor(rmotor,throttle_percent*right_percent*32767)
