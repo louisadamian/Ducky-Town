@@ -25,8 +25,11 @@ camera = PiCamera()
 
 current_image_number = 0
 current_video_number = 0
-def map(long x, long in_min, long in_max, long out_min, long out_max):
-    return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min
+
+def scaleMap (value, value_low, value_high, map_low, map_high):
+    return (float(value) - value_low) * (map_high - map_low) / (value_high - value_low) + map_low
+
+is_recording = False
 
 # Loop over the gamepad's inputs, reading it.
 for event in gamepad.read_loop():
@@ -37,12 +40,15 @@ for event in gamepad.read_loop():
       # example key detection code
       if 'BTN_A' in keyevent.keycode:
         # Do something here when the A button is pressed
-        camera.start_preview()
-        camera.start_recording('/home/nuvustudent/Desktop/Videos/video%s.h264' % current_video_number)
-        sleep(10)
-        camera.stop_recording()
-        camera.stop_preview
-        current_video_number += 1
+        if is_recording == False:
+            camera.start_preview()
+            camera.start_recording('/home/nuvustudent/Desktop/Videos/video%s.h264' % current_video_number)
+            is_recording = True
+        elif is_recording == True:
+            camera.stop_recording()
+            camera.stop_preview
+            is_recording = False
+            current_video_number += 1
         pass
       elif 'BTN_B' in keyevent.keycode:
         # Do something here when the B button is pressed
@@ -64,7 +70,6 @@ for event in gamepad.read_loop():
     elif event.code == 4:
       print('JOY_UD '+str(event.value))
     elif event.code == 5:
-      drive.drive(map(event.value, 0, 255, 0, 32767))
       print('TRIG_R '+str(event.value))
     elif event.code == 16:
       print('HAT_LR '+str(event.value))
