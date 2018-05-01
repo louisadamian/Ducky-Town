@@ -10,7 +10,7 @@ from Adafruit_MotorHAT import Adafruit_MotorHAT, Adafruit_DCMotor
 from evdev import InputDevice, categorize, ecodes, KeyEvent, list_devices
 from picamera import PiCamera
 from time import sleep
-import drive.py
+import drive as drive
 import atexit
 
 # Get the name of the Logitech Device
