@@ -97,7 +97,5 @@ for event in gamepad.read_loop():
       print('HAT_UD '+str(event.value))
     else:
       pass
-
-while True:
-    drive.runMotor(lmotor,throttle_percent*left_percent*32767)
-    drive.runMotor(rmotor,throttle_percent*right_percent*32767)
+  drive.runMotor(lmotor,throttle_percent*left_percent*32767)
+  drive.runMotor(rmotor,throttle_percent*right_percent*32767)
