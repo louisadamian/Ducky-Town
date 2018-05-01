@@ -36,8 +36,11 @@ def drive(speed, turn):
 # 3. any value equal to 0 makes the motor BRAKE.
 # 4. any values less than -32768 and greater than 32768 are rejected.
 def runMotor(motor, speed):
-	motor.setSpeed(speed)
-	motor.run(Adafruit_MotorHAT.FORWARD)
+	motor.setSpeed(abs(speed))
+    if(speed>= 0):
+        motor.run(Adafruit_MotorHAT.FORWARD)
+    else:
+        motor.run(Adafruit_MotorHAT.BACKWARD)
 while(True):
-	runMotor(lmotor,32767)
-	runMotor(rmotor,32767)
+	runMotor(lmotor,32767/2)
+	runMotor(rmotor,32767/2)

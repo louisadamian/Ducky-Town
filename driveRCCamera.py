@@ -10,8 +10,12 @@ from evdev import InputDevice, categorize, ecodes, KeyEvent, list_devices
 from picamera import PiCamera
 from time import sleep
 
+def map(x, in_min, in_max, out_min, out_max):
+     return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min
 
 # Get the name of the Logitech Device
+
+
 def getInputDeviceByName(name):
   devices = [InputDevice(fn) for fn in list_devices()]
   for device in devices:
@@ -59,9 +63,12 @@ for event in gamepad.read_loop():
       print('TRIG_L '+str(event.value))
     elif event.code == 3:
       print('JOY_LR '+str(event.value))
+      map(event.value, 0, 255, -100, 100)
+
     elif event.code == 4:
       print('JOY_UD '+str(event.value))
     elif event.code == 5:
+        map(event.value, 0, 255, 0, 32767)
       print('TRIG_R '+str(event.value))
     elif event.code == 16:
       print('HAT_LR '+str(event.value))
@@ -69,4 +76,3 @@ for event in gamepad.read_loop():
       print('HAT_UD '+str(event.value))
     else:
       pass
-
