@@ -40,10 +40,11 @@ class PID():
 
 
 def drive(speed, turn):
-
-    tVal = turn/2
-    runMotor(lmotor, speed*  tVal)
-    runMotor(rmotor, speed*(-tVal))
+    motor.setSpeed(abs(speed))
+    if(speed>= 0):
+        motor.run(Adafruit_MotorHAT.FORWARD)
+    else:
+        motor.run(Adafruit_MotorHAT.BACKWARD)
 
 # Complete this function so:
 # 1. values in the range 1 to 32768 make the motor spin forward faster and faster.
@@ -54,5 +55,5 @@ def runMotor(motor, speed):
 	motor.setSpeed(speed)
 	motor.run(Adafruit_MotorHAT.BACKWARD)
 while(True):
-	runMotor(lmotor,32767)
-	runMotor(rmotor,32767)
+	runMotor(lmotor,32767/2)
+	runMotor(rmotor,32767/2)
