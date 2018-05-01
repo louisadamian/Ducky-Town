@@ -37,7 +37,7 @@ def drive(speed, turn):
 # 4. any values less than -32768 and greater than 32768 are rejected.
 def runMotor(motor, speed):
 	motor.setSpeed(speed)
-	motor.run(Adafruit_MotorHAT.FORWARD)
+	motor.run(Adafruit_MotorHAT.BACKWARD)
 while(True):
 	runMotor(lmotor,32767)
 	runMotor(rmotor,32767)
