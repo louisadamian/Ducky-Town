@@ -9,7 +9,7 @@ This is a temporary script file.
 from evdev import InputDevice, categorize, ecodes, KeyEvent, list_devices
 from picamera import PiCamera
 from time import sleep
-
+import drive as drive
 
 # Get the name of the Logitech Device
 def getInputDeviceByName(name):
@@ -25,6 +25,8 @@ camera = PiCamera()
 
 current_image_number = 0
 current_video_number = 0
+def map(long x, long in_min, long in_max, long out_min, long out_max):
+    return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min
 
 # Loop over the gamepad's inputs, reading it.
 for event in gamepad.read_loop():
@@ -62,6 +64,7 @@ for event in gamepad.read_loop():
     elif event.code == 4:
       print('JOY_UD '+str(event.value))
     elif event.code == 5:
+      drive.drive(map(event.value, 0, 255, 0, 32767))
       print('TRIG_R '+str(event.value))
     elif event.code == 16:
       print('HAT_LR '+str(event.value))
@@ -69,4 +72,3 @@ for event in gamepad.read_loop():
       print('HAT_UD '+str(event.value))
     else:
       pass
-
