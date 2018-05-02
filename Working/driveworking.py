@@ -16,9 +16,39 @@ def turnOffMotors():
   mh.getMotor(3).run(Adafruit_MotorHAT.RELEASE)
   mh.getMotor(4).run(Adafruit_MotorHAT.RELEASE)
 
+<<<<<<< HEAD:Working/driveworking.py
 def runMotor(motor, speed, direction):
 	motor.setSpeed(int(speed))
 	if direction == True:    
 		motor.run(Adafruit_MotorHAT.BACKWARD)
 	elif direction == False:
 		motor.run(Adafruit_MotorHAT.FORWARD)
+=======
+atexit.register(turnOffMotors)
+
+def scaleMap (value, value_low, value_high, map_low, map_high):
+    return (float(value) - value_low) * (map_high - map_low) / (value_high - value_low) + map_low
+
+def drive(speed):
+    runMotor(lmotor,speed)
+    runMotor(rmotor,speed)
+
+def drive(speed, turn):
+    tVal = turn/2
+    runMotor(lmotor, speed* tVal)
+    runMotor(rmotor, speed*(-tVal))
+
+# Complete this function so:
+# 2. values in the range -1 to -32768 make the motor spin backward faster and faster.
+# 3. any value equal to 0 makes the motor BRAKE.
+# 4. any values less than -32768 and greater than 32768 are rejected.
+def runMotor(motor, speed):
+	motor.setSpeed(abs(speed))
+    if(speed>= 0):
+        motor.run(Adafruit_MotorHAT.FORWARD)
+    else:
+        motor.run(Adafruit_MotorHAT.BACKWARD)
+while(True):
+	runMotor(lmotor,32767/2)
+	runMotor(rmotor,32767/2)
+>>>>>>> master:drive.py
