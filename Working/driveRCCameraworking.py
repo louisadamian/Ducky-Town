@@ -3,7 +3,7 @@ from Adafruit_MotorHAT import Adafruit_MotorHAT, Adafruit_DCMotor
 from evdev import InputDevice, categorize, ecodes, KeyEvent, list_devices
 from picamera import PiCamera
 from time import sleep
-import drive as drive
+import driveworking as drive
 import atexit
 from multiprocessing import Process, Queue
 import os

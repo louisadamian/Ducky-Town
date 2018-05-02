@@ -1,0 +1,58 @@
+diff --git a/drive.py b/drive.py
+index 4b6f946..998591f 100644
+--- a/drive.py
++++ b/drive.py
+@@ -36,8 +36,16 @@ def drive(speed, turn):
+ # 3. any value equal to 0 makes the motor BRAKE.
+ # 4. any values less than -32768 and greater than 32768 are rejected.
+ def runMotor(motor, speed):
++<<<<<<< HEAD
+ 	motor.setSpeed(speed)
+ 	motor.run(Adafruit_MotorHAT.BACKWARD)
++=======
++	motor.setSpeed(abs(speed))
++    if(speed>= 0):
++        motor.run(Adafruit_MotorHAT.FORWARD)
++    else:
++        motor.run(Adafruit_MotorHAT.BACKWARD)
++>>>>>>> 863516f8962827308c0a16091357a794c15604ff
+ while(True):
+-	runMotor(lmotor,32767)
+-	runMotor(rmotor,32767)
++	runMotor(lmotor,32767/2)
++	runMotor(rmotor,32767/2)
+diff --git a/driveRCCamera.py b/driveRCCamera.py
+index ab94b52..627ab22 100644
+--- a/driveRCCamera.py
++++ b/driveRCCamera.py
+@@ -10,8 +10,12 @@ from evdev import InputDevice, categorize, ecodes, KeyEvent, list_devices
+ from picamera import PiCamera
+ from time import sleep
+ 
++def map(x, in_min, in_max, out_min, out_max):
++     return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min
+ 
+ # Get the name of the Logitech Device
++
++
+ def getInputDeviceByName(name):
+   devices = [InputDevice(fn) for fn in list_devices()]
+   for device in devices:
+@@ -59,9 +63,12 @@ for event in gamepad.read_loop():
+       print('TRIG_L '+str(event.value))
+     elif event.code == 3:
+       print('JOY_LR '+str(event.value))
++      map(event.value, 0, 255, -100, 100)
++
+     elif event.code == 4:
+       print('JOY_UD '+str(event.value))
+     elif event.code == 5:
++        map(event.value, 0, 255, 0, 32767)
+       print('TRIG_R '+str(event.value))
+     elif event.code == 16:
+       print('HAT_LR '+str(event.value))
+@@ -69,4 +76,3 @@ for event in gamepad.read_loop():
+       print('HAT_UD '+str(event.value))
+     else:
+       pass
+-
