@@ -318,3 +318,7 @@ $RECYCLE.BIN/
 
 
 # End of https://www.gitignore.io/api/osx,ros,linux,python,opencv,windows,pycharm,sublimetext
+.pioenvs
+.piolibdeps
+.clang_complete
+.gcc-flags.json

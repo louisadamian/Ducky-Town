@@ -27,3 +27,5 @@ def findLines(image):
 def getColor(img):
     detector = cv2.SimpleBlobDetector()
     detector.detect(img)
+
+def 
